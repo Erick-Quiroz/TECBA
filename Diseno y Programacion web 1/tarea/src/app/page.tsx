@@ -3,16 +3,26 @@ import { useState } from "react";
 import { data } from "./data";
 import Image from "next/image";
 
-export default function Home() {
-  const [selectedPerson, setSelectedPerson] = useState(null);
+interface Person {
+  id: number;
+  title: string;
+  encabezado: string;
+  description: string;
+  img1: string;
+  img2: string;
+  img3: string;
+}
 
-  const handleSelectPerson = (person) => {
+export default function Home() {
+  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
+
+  const handleSelectPerson = (person: Person) => {
     setSelectedPerson(person);
   };
 
   return (
-    <div className=" grid  item-center min-h-screen bg-gradient-to-b from-black to-orange-900">
-      <div className=" p-6 ">
+    <div className="grid item-center min-h-screen bg-gradient-to-b from-black to-orange-900">
+      <div className="p-6">
         {!selectedPerson ? (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 w-full px-4">
             {data.map((person) => (
@@ -30,8 +40,8 @@ export default function Home() {
             <h1 className="text-3xl font-bold mb-4 border-b">
               {selectedPerson.title}
             </h1>
-            <h5 className=" p-6 mb-4 ">{selectedPerson.encabezado}</h5>
-            <div className="p-6 border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 ">
+            <h5 className="p-6 mb-4">{selectedPerson.encabezado}</h5>
+            <div className="p-6 border border-gray-200 rounded-lg shadow-sm dark:border-gray-700">
               <p className="text-lg mb-2">{selectedPerson.description}</p>
             </div>
 
