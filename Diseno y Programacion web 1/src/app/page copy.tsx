@@ -11,6 +11,7 @@ interface Person {
   img1: string;
   img2: string;
   img3: string;
+  enlace: string;
 }
 
 export default function Home() {
@@ -79,10 +80,10 @@ export default function Home() {
               <ul className="list-disc list-inside">
                 <li className="mb-1">
                   <a
-                    href="https://www.google.com"
+                    href={selectedPerson.enlace}
                     className="text-blue-600 hover:text-blue-200"
                   >
-                    www.google.com
+                    {selectedPerson.enlace}
                   </a>
                 </li>
               </ul>
