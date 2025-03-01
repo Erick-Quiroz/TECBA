@@ -1,54 +1,79 @@
 "use client";
 import Image from "next/image";
 import { data } from "./data";
-
+import { useState } from "react";
+import { Person } from "@/types/Person";
 export default function Home() {
+  const [selectPerson, setSelectPerson] = useState<Person | null>(null);
+  const handleSelectPerson = (person: Person) => {
+    setSelectPerson(person);
+  };
   return (
-    <div className="px-10 not-only-of-type:p-6 item-center justify-center text-center text-white min-h-screen bg-gradient-to-b from-black to-orange-900">
-      <section className="" id="titles">
-        <div id="title" className=" border-b border-orange-900 ">
-          Person.title
-        </div>
-        <div
-          id="encabezado"
-          className="mt-10 border-b border-orange-900 inline-block text-center mx-auto"
+    <div className="p-10  not-only-of-type:p-6 item-center justify-center text-center text-white min-h-screen bg-gradient-to-b from-black to-orange-900">
+      {!selectPerson ? (
+        <section
+          className="flex flex-wrap gap-6 items-center justify-center"
+          id="menu"
         >
-          Person.encabezado
-        </div>
-      </section>
-      <section className="" id="description">
-        <div id="description" className="mt-10">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-          exercitationem neque deleniti, possimus minus odio similique obcaecati
-          cumque quas ad modi totam fuga corporis hic dolore odit ipsa? Sit,
-          consectetur.
-        </div>
-      </section>
-      <section className="px-10" id="images">
-        {data.map((person) => (
-          <div
-            key={person.id}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6 items-start justify-center"
+          {data.map((person) => (
+            <button
+              key={person.id}
+              className=" bg-blue-900 rounded p-2 hover:bg-blue-500 cursor-pointer"
+              onClick={() => handleSelectPerson(person)}
+            >
+              {person.title}
+            </button>
+          ))}
+        </section>
+      ) : (
+        <div>
+          <section className="" id="titles">
+            <div id="title" className="uppercase border-b border-orange-900 ">
+              {selectPerson.title}
+            </div>
+            <div
+              id="encabezado"
+              className="mt-10 border-b border-orange-900 inline-block text-center mx-auto"
+            >
+              {selectPerson.encabezado}
+            </div>
+          </section>
+          <section className="" id="description">
+            <p id="description" className="mt-10 border p-5">
+              {" "}
+              {selectPerson.description}
+            </p>
+          </section>
+          <section
+            className="pt-10 grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 "
+            id="images"
           >
-            {Object.values(person.img).map((src, index) => (
+            {Object.values(selectPerson.img).map((src, index) => (
               <div
                 key={index}
-                className="flex flex-col justify-center items-center"
+                className="flex flex-col justify-center items-center p-6 w-[240px] h-[240px] overflow-hidden mx-auto"
               >
                 <Image
                   src={src}
                   width={240}
                   height={240}
-                  objectFit="cover"
-                  objectPosition="center"
-                  alt={person.title}
-                  
+                  className="w-full h-full object-cover"
+                  alt={selectPerson.title}
                 />
               </div>
             ))}
-          </div>
-        ))}
-      </section>
+          </section>
+          <button
+            onClick={() => {
+              setSelectPerson(null);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="mt-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+          >
+            Ir al menu
+          </button>
+        </div>
+      )}
     </div>
   );
 }
